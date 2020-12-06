@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} Choose{% endblock %}
+{% block content %}
+        <h1>AC/DC</h1>
+    <h3>Tracks from first album:</h3>
+   {% for tracks in first_acdc_album_tracks %}
+    {{ tracks }}<br>
+    {% endfor %}
+    <h3>Tracks from second album:</h3>
+    {% for tracks in second_acdc_album_tracks %}
+    {{ tracks }}<br>
+    {% endfor %}
+    <br>
+    <br>
+    <h1>Imagine Dragons</h1>
+    <h3>Tracks from first album:</h3>
+    {% for tracks in first_dragon_album_tracks %}
+    <br>{{ tracks }}
+    {% endfor %}
+    <h3>Tracks from second album:</h3>
+    {% for tracks in second_dragon_album_tracks %}
+    <br>{{ tracks }}
+    {% endfor %}
+    <br>
+    <br>
+    <a href="{% url 'home' %}">Home</a>
+{% endblock %}

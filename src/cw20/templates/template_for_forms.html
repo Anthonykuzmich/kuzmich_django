@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Forms {% endblock %}
+{% block content %}
+    {% for string in text %}
+        {{ string }}<br>
+    {% endfor %}
+    <form action="{% url 'form' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <button type="submit">Press</button>
+    </form>
+    <form action="{% url 'erase' %}">
+    <button type="submit">Erase</button>
+    </form>
+{% endblock %}
