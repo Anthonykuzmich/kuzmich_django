@@ -8,14 +8,14 @@
        <div class="post-entry">
 
        <br>
-        <a href="{% url 'blog_detail' post.pk %}">Подробнее</a> -  <small>
+        <a href="{% url 'blog_detail' post.pk %}">Details</a> -  <small>
         {% if user.is_authenticated %}
-        <a href="{% url 'update_post' post.pk%}">(Изменить)</a></small> - <small>Опубликовано:
+        <a href="{% url 'update_post' post.pk%}">Update</a></small> - <small>Published:
         {% endif %}
         {{ post.post_date }}</small>
-        <h2> Author - {{ post.author }}</h2>
-    <p>Сфера - {{ post.sphere }}</p>
-          <p>{{ post.resume|slice:":200"|safe }}</p>
+        <h2> Author - {{ post.author.first_name|title }} {{ post.author.last_name|title }}</h2>
+           <b>Sphere - </b>{{ post.sphere }}
+          <p><b>About me:</b><br>{{ post.resume|slice:":200"|safe }}</p>
     </div>
     {% endfor %}
 {% else %}

@@ -66,7 +66,8 @@ def SphereListView(request):
 
 def CategoryView(request, sphere_name):
     sphere_posts = Post.objects.filter(sphere=sphere_name)
-    return render(request, 'blog_page/spheres.html', context={'sphere_name': sphere_name, 'sphere_posts': sphere_posts})
+    sphere_menu_list = Sphere.objects.all()
+    return render(request, 'blog_page/spheres.html', context={'sphere_name': sphere_name, 'sphere_posts': sphere_posts, 'sphere_menu_list':sphere_menu_list})
 
 
 def likeView(request, pk):

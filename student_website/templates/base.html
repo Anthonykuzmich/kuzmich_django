@@ -15,34 +15,36 @@
       <nav class="container d-flex flex-column flex-md-row justify-content-between">
 
 
-        <a class="py-2 d-none d-md-inline-block nav-link text-light" href="#">Стажировки</a>
-        <a class="py-2 d-none d-md-inline-block nav-link text-light" href="{% url 'blog' %}">Студенты</a>
+        <a class="py-2 d-none d-md-inline-block nav-link text-light" href="{% url 'blog' %}">Student Research Council</a>
+        <a class="py-2 d-none d-md-inline-block nav-link text-light" href="{% url 'blog' %}">Students</a>
          <div class="navbar-light">
           {% if sphere_menu %}
              <a class="py-2 d-none d-md-inline-block nav-link active text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Направления
+            Spheres
           </a>
                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               {% for item in sphere_menu %}
               <a class= 'dropdown-item' href="{% url 'category' item %}"> {{ item }}</a><br>
               {% endfor %}
           {% else %}
-              <a class="py-2 d-none d-md-inline-block text-light" href="{% url 'sphere_list' %}">Направления</a>
+              <a class="py-2 d-none d-md-inline-block text-light" href="{% url 'sphere_list' %}">Spheres</a>
 
           {% endif %}
           </ul>
         </div>
-        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="{% url 'send_mail' %}">Сотрудничество</a>
-        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="{% url 'login' %}">Логин</a>
-        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="{% url 'signup' %}">Регистрация</a>
+        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="{% url 'send_mail' %}">Suggestions</a>
+        {% if user.is_authenticated %}
+        {% else %}
+          <a class="py-2 d-none d-md-inline-block text-light nav-link" href="{% url 'login' %}">Login</a>
+        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="{% url 'signup' %}">Registration</a>
+        {% endif %}
           {% if user.is_authenticated %}
-        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="#">Добро пожаловать, {{ user.username }}</a>
+        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="#">Welcome, {{ user.username }}</a>
           {% else %}
-        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="#">Вы не вошли</a>
-        <a href="{% url 'login' %}">Log In</a>
+        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="#">You are not logged in</a>
           {% endif %}
       {% if user.is_authenticated %}
-        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="{% url 'logout' %}">Выйти</a>
+        <a class="py-2 d-none d-md-inline-block text-light nav-link" href="{% url 'logout' %}">Log out</a>
       {% else %}
 
       {% endif %}

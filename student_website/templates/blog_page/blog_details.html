@@ -8,20 +8,20 @@
         <h2> {{ post.author }}</h2>
         <p>Опубликовано: {{ post.post_date }}</p>
         <hr>
+            <p><h3>{{ post.author.first_name }} {{ post.author.last_name }}</h3></p>
         {% if post.image %}
             <p><img src = "{{ post.image.url}}"></p>
         {% endif %}
-        <p>age - {{ post.age }}</p>
+
+        <p class="">Age - {{ post.age }}</p>
       <p>speciality - {{ post.speciality }}</p>
       <p>resume - {{ post.resume|safe }}</p>
       {% if post.cv_pdf %}
         <p><a href="{{ post.cv_pdf.url }}" target="_blank">CV</a></p>
       {% endif %}
-        <hr>
-        <br>
         {% if user.is_authenticated %}
             {% if user.id == post.author.id %}
-        <small><a href="{% url 'delete_post' post.pk%} "class="btn btn-outline-danger">Удалить</a></small>
+        <small><a href="{% url 'delete_post' post.pk%} "class="btn btn-outline-danger">Delete</a></small>
             {% endif %}
         {% endif %}
         <br>
@@ -39,7 +39,7 @@
         {% endif %}
         </form>
         <hr>
-        <a href="{% url 'blog' %}" class="btn btn-outline-secondary">Обратно</a>
+        <a href="{% url 'blog' %}" class="btn btn-outline-secondary">Back</a>
     </div>
     </div>
 {% endblock %}
