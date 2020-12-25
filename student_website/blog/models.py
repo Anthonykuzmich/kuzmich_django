@@ -23,9 +23,15 @@ class Post(models.Model):
     resume = models.TextField(default=None)
     post_date = models.DateField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='blog_posts')
+    image = models.ImageField(null=True, blank=True, upload_to='images/')
+    cv_pdf = models.FileField(null=True, blank=True, upload_to='cv/')
+
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return str(self.author)
 
     def get_absolute_url(self):
         return reverse('blog')
+

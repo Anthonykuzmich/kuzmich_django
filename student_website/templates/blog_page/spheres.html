@@ -2,10 +2,11 @@
 
 
 {% block content %}
+    <h1>{{ sphere_name.upper }}</h1>
     {% if sphere_posts %}
     {% for post in sphere_posts %}
        <div class="post-entry">
-       <h1>{{ post.sphere.upper }}</h1>
+
        <br>
         <a href="{% url 'blog_detail' post.pk %}">Подробнее</a> -  <small>
         {% if user.is_authenticated %}

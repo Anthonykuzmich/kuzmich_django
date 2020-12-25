@@ -4,22 +4,42 @@
     {% if user.id == post.author.id %}
        <small><a href="{% url 'update_post' post.pk%}">(Изменить)</a></small>
     {% endif %}
-        <h2> {{ post.author }}</h2>
-      <p>{{ post.age }}</p>
-      <p>{{ post.speciality }}</p>
-      <p>{{ post.resume|safe }}</p>
-        <hr>
-        Опубликовано: {{ post.post_date }}
         <br>
+        <h2> {{ post.author }}</h2>
+        <p>Опубликовано: {{ post.post_date }}</p>
+        <hr>
+        {% if post.image %}
+            <p><img src = "{{ post.image.url}}"></p>
+        {% endif %}
+        <p>age - {{ post.age }}</p>
+      <p>speciality - {{ post.speciality }}</p>
+      <p>resume - {{ post.resume|safe }}</p>
+      {% if post.cv_pdf %}
+        <p><a href="{{ post.cv_pdf.url }}" target="_blank">CV</a></p>
+      {% endif %}
+        <hr>
         <br>
         {% if user.is_authenticated %}
             {% if user.id == post.author.id %}
         <small><a href="{% url 'delete_post' post.pk%} "class="btn btn-outline-danger">Удалить</a></small>
-            {% endif %}}
+            {% endif %}
         {% endif %}
         <br>
         <br>
+        <form action="{% url 'like_post' post.pk %}" method="POST">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+            {% if liked %}
+            <button type="submit" name='post_id' value="{{ post.id }}" class="btn btn-primary">{{ total_likes }} Likes</button>
+            {% else %}
+            <button type="submit" name='post_id' value="{{ post.id }}" class="btn btn-primary">{{ total_likes }} Likes</button>
+            {% endif %}
+            {% else %}
+            {{ total_likes }} like
+        {% endif %}
+        </form>
+        <hr>
         <a href="{% url 'blog' %}" class="btn btn-outline-secondary">Обратно</a>
-
+    </div>
     </div>
 {% endblock %}
