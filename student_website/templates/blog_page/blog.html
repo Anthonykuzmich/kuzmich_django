@@ -26,7 +26,9 @@
         {% endif %}
         <small>Published: {{ post.post_date }}</small>
         <h2>{{ post.author.first_name|title }} {{ post.author.last_name|title }}</h2>
+        {% if post.img.url %}
         <p><img class="img-fluid" src = "{{ post.image.url}}"></p>
+        {% endif %}
         <b>Sphere - </b><a href="{% url 'category' post.sphere%}"> {{ post.sphere }}</a>
           <p><b>About me:</b><br>{{ post.resume|slice:":200"|safe }}</p>
     </div>

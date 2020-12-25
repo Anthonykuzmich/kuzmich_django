@@ -4,7 +4,7 @@
 {% if user.is_authenticated %}
     {% if user.id == post.author.id %}
 <div class = 'form-group row'>
-    <h3>Вы действительно собираетесь удалить резюме, {{ post.author}}</h3>
+    <h3>Do you really want to delete this post, {{ post.author}}</h3>
     <form method="POST">
     {% csrf_token %}
     <button class="btn btn-outline-danger">Delete</button>
