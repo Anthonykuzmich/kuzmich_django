@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+   <h1>Сферы:</h1>
+    {% for item in sphere_menu_list %}
+        <h4><a class= 'dropdown-item' href="{% url 'category' item %}"> {{ item }}</a></h4><br>
+    {% endfor %}
+{% endblock %}

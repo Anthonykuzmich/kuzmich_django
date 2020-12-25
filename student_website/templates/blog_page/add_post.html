@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} Add a post{% endblock %}
+{% block content %}
+<div class = 'form-group row'>
+{% if user.is_authenticated %}
+<div class="col-6">
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-outline-secondary">Post</button>
+</form>
+<script>
+    var name = "{{ user.id }}";
+    document.getElementById("username").value = name;
+
+</script>
+{% else %}
+    Для удаления поста необходимо войти в систему
+{% endif%}
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+<a href="{% url 'add_post' %}" class="btn btn-outline-secondary">Добавить пост</a>
+  {% else %}
+    {% endif %}
+    <br>
+    <br>
+    <p>Сортировка по сферам:
+    {% for post in object_list %}
+        <a href="{% url 'category' post.sphere%}"> {{ post.sphere }}</a>
+    {% endfor %}
+    </p>
+    <hr>
+
+  {% for post in object_list %}
+    <div class="post-entry">
+        <a href="{% url 'blog_detail' post.pk %}">Подробнее</a> -  <small>
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %}
+        <a href="{% url 'update_post' post.pk%}">(Изменить)</a></small> - <small>Опубликовано:
+            {% endif %}
+        {% endif %}
+        {{ post.post_date }}</small>
+        <h2> {{ post.author }}</h2>
+        Сфера - <a href="{% url 'category' post.sphere%}"> {{ post.sphere }}</a>
+          <p>{{ post.resume|slice:":200"|safe }}</p>
+    </div>
+  {% endfor %}
+{% endblock content %}

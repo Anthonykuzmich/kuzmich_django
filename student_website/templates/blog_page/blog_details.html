@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="post-entry">
+    {% if user.id == post.author.id %}
+       <small><a href="{% url 'update_post' post.pk%}">(Изменить)</a></small>
+    {% endif %}
+        <h2> {{ post.author }}</h2>
+      <p>{{ post.age }}</p>
+      <p>{{ post.speciality }}</p>
+      <p>{{ post.resume|safe }}</p>
+        <hr>
+        Опубликовано: {{ post.post_date }}
+        <br>
+        <br>
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %}
+        <small><a href="{% url 'delete_post' post.pk%} "class="btn btn-outline-danger">Удалить</a></small>
+            {% endif %}}
+        {% endif %}
+        <br>
+        <br>
+        <a href="{% url 'blog' %}" class="btn btn-outline-secondary">Обратно</a>
+
+    </div>
+{% endblock %}

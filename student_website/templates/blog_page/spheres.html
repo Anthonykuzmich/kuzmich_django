@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    {% if sphere_posts %}
+    {% for post in sphere_posts %}
+       <div class="post-entry">
+       <h1>{{ post.sphere.upper }}</h1>
+       <br>
+        <a href="{% url 'blog_detail' post.pk %}">Подробнее</a> -  <small>
+        {% if user.is_authenticated %}
+        <a href="{% url 'update_post' post.pk%}">(Изменить)</a></small> - <small>Опубликовано:
+        {% endif %}
+        {{ post.post_date }}</small>
+        <h2> Author - {{ post.author }}</h2>
+    <p>Сфера - {{ post.sphere }}</p>
+          <p>{{ post.resume|slice:":200"|safe }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+This page does not found
+{% endif %}
+{% endblock content %}
