@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
-
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'student_website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'finalproject',
-        'USER': 'finalprojectuser',
-        'PASSWORD': 'Mischa1958',
+        'NAME': config('db_name'),
+        'USER': config('db_username'),
+        'PASSWORD': config('db_password'),
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -136,6 +136,6 @@ MEDIA_URL = '/media/'
 
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525
-EMAIL_HOST_USER = email
-EMAIL_HOST_PASSWORD = email_password
+EMAIL_HOST_USER = config('email_user')
+EMAIL_HOST_PASSWORD = config('email_password')
 EMAIL_USE_TLS = True
