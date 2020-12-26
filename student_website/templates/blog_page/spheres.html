@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>{{ sphere_name.upper }}</h1>
+    {% if sphere_posts %}
+    {% for post in sphere_posts %}
+       <div class="post-entry">
+
+       <br>
+        <a href="{% url 'blog_detail' post.pk %}">Details</a> -  <small>
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %}
+        <a href="{% url 'update_post' post.pk%}">Update</a></small> - <small>Published:
+        {% endif %}
+            {% endif %}
+        {{ post.post_date }}</small>
+        <h2> Author - {{ post.author.first_name|title }} {{ post.author.last_name|title }}</h2>
+           {% if post.image %}
+                <p><img width="200" height="100" class="img-fluid" src="{{ post.image.url}}"> </p>
+            {% endif %}
+           <b>Sphere - </b>{{ post.sphere }}
+          <p><b>About me:</b><br>{{ post.resume|slice:":200"|safe }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+This page was not found
+{% endif %}
+{% endblock content %}
