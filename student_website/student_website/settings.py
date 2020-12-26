@@ -136,6 +136,6 @@ MEDIA_URL = '/media/'
 
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525
-EMAIL_HOST_USER = "kuzmich19@bk.ru"
-EMAIL_HOST_PASSWORD = "telefon123"
+EMAIL_HOST_USER = "****@**.**"
+EMAIL_HOST_PASSWORD = "******"
 EMAIL_USE_TLS = True
