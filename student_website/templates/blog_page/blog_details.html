@@ -2,22 +2,22 @@
 {% block content %}
     <div class="post-entry">
     {% if user.id == post.author.id %}
-       <small><a href="{% url 'update_post' post.pk%}">(Изменить)</a></small>
+       <small><a href="{% url 'update_post' post.pk%}">(Update)</a></small>
     {% endif %}
         <br>
         <h2> {{ post.author }}</h2>
-        <p>Опубликовано: {{ post.post_date }}</p>
+        <p>Published: {{ post.post_date }}</p>
         <hr>
-            <p><h3>{{ post.author.first_name }} {{ post.author.last_name }}</h3></p>
+            <p><h3>{{ post.author.first_name|title }} {{ post.author.last_name|title }}</h3></p>
         {% if post.image %}
-            <p><img src = "{{ post.image.url}}"></p>
+            <p><img <img width="200" height="100" class="img-fluid" src = "{{ post.image.url}}"></p>
         {% endif %}
 
         <p class="">Age - {{ post.age }}</p>
       <p>speciality - {{ post.speciality }}</p>
       <p>resume - {{ post.resume|safe }}</p>
       {% if post.cv_pdf %}
-        <p><a href="{{ post.cv_pdf.url }}" target="_blank">CV</a></p>
+        <p><a href="{{ post.cv_pdf.url }}" target="_blank"><h5>CV</h5></a></p>
       {% endif %}
         {% if user.is_authenticated %}
             {% if user.id == post.author.id %}
