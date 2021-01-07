@@ -1,4 +1,6 @@
 from django import forms
+from django.core.mail import send_mail
+
 from .models import Post, Sphere
 
 choices = Sphere.objects.all().values_list('name', 'name')
@@ -38,3 +40,11 @@ class EmailForm(forms.Form):
     email = forms.EmailField(label='E-Mail')
     subject = forms.CharField(required=False)
     message = forms.CharField(widget=forms.Textarea)
+
+    def send_email(self):
+        name = self.cleaned_data['name']
+        email = self.cleaned_data['email']
+        subject = self.cleaned_data['subject']
+        message = self.cleaned_data['message']
+        send_mail(subject, message, email, ['jemope4869@girtipo.com'], fail_silently=False)
+        pass

@@ -1,19 +1,21 @@
-from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, RedirectView, TemplateView
+from django.views.generic.edit import FormView
+from django_filters.views import FilterView
 
+from .filters import OrderFilter
 from .models import Post, Sphere
 from .forms import EditForm, PostForm, EmailForm
 
 
-class BlogListView(ListView):
+class BlogListView(FilterView):
+    paginate_by = 3
     model = Post
     template_name = 'blog_page/blog.html'
-    # ordering = ['-post_date']
-    ordering = ['-id']
-
+    filterset_class = OrderFilter
+    ordering = ['age', 'sphere']
+    
     def get_context_data(self, *args, **kwargs):
         sphere_menu = Sphere.objects.all()
         context = super(BlogListView, self).get_context_data(*args, **kwargs)
@@ -32,12 +34,8 @@ class BlogDetailView(DetailView):
         correct_user = get_object_or_404(Post, id=self.kwargs['pk'])
         total_likes = correct_user.total_likes()
 
-        liked = False
-        if correct_user.likes.filter(id=self.request.user.id).exists:
-            liked = True
         context['sphere_menu'] = sphere_menu
         context['total_likes'] = total_likes
-        context['liked'] = liked
         return context
 
 
@@ -59,37 +57,47 @@ class DeletePostView(DeleteView):
     success_url = reverse_lazy('blog')
 
 
-def SphereListView(request):
-    sphere_menu_list = Sphere.objects.all()
-    return render(request, 'blog_page/category_list.html', context={'sphere_menu_list': sphere_menu_list})
+class SphereListView(TemplateView):
+    template_name = 'blog_page/category_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        sphere_menu_list = Sphere.objects.all()
+        context = super(SphereListView, self).get_context_data(*args, **kwargs)
+        context['sphere_menu_list'] = sphere_menu_list
+        return context
 
 
-def CategoryView(request, sphere_name):
-    sphere_posts = Post.objects.filter(sphere=sphere_name)
-    sphere_menu_list = Sphere.objects.all()
-    return render(request, 'blog_page/spheres.html', context={'sphere_name': sphere_name, 'sphere_posts': sphere_posts, 'sphere_menu_list':sphere_menu_list})
+class CategoryView(TemplateView):
+    template_name = 'blog_page/spheres.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CategoryView, self).get_context_data(*args, **kwargs)
+        sphere_posts = Post.objects.filter(sphere=kwargs['sphere_name'])
+        sphere_menu_list = Sphere.objects.all()
+        context['sphere_posts'] = sphere_posts
+        context['sphere_menu_list'] = sphere_menu_list
+        return context
 
 
-def likeView(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    liked = False
-    if post.likes.filter(id=request.user.id).exists():
-        post.likes.remove(request.user)
-        liked = True
-    else:
-        post.likes.add(request.user)
-    return HttpResponseRedirect(reverse('blog_detail', args=[str(pk)]))
+class PostLikeRedirect(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        post = get_object_or_404(Post, id=self.kwargs['pk'])
+        url_ = post.get_absolute_url() + str(self.kwargs['pk'])
+        user = self.request.user
+        if user.is_authenticated:
+            if user in post.likes.all():
+                post.likes.remove(user)
+            else:
+                post.likes.add(user)
+        return url_
 
 
-def email_form(request):
-    if request.method == 'POST':
-        form = EmailForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            subject = form.cleaned_data['subject']
-            message = form.cleaned_data['message']
-            send_mail(subject, message, email, ['cipom14532@nenekbet.com'], fail_silently=False)
-    form = EmailForm()
-    return render(request, 'blog_page/email.html', {'form': form})
+class EmailSending(FormView):
+    template_name = 'blog_page/email.html'
+    form_class = EmailForm
+    success_url = '/blog'
 
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)

@@ -8,15 +8,18 @@
     <br>
 
     <br>
-    <p>Filter by spheres:
-
+    <p>Spheres of our students
    {% for sphere in sphere_menu %}
-        <a href="{% url 'category' sphere %}">{{ sphere|title}}</a>
+        <a class="text" href="{% url 'category' sphere %}"><br>{{ sphere|title}}</a>
     {% endfor %}
     </p>
+    <h5>Filters:</h5>
+    <form method="get" class="col-6">
+    {{ filter.form.as_p }}
+    <button class="btn btn-primary" type="submit">Press</button>
+  </form>
     <hr>
-
-  {% for post in object_list %}
+    {% for post in object_list %}
     <div class="post-entry">
         <small><a href="{% url 'blog_detail' post.pk %}">Details</a> -  </small>
         {% if user.is_authenticated %}
@@ -36,4 +39,21 @@
           <p><b>About me:</b><br>{{ post.resume|slice:":200"|safe }}</p>
     </div>
   {% endfor %}
+        <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+</div>
 {% endblock content %}
