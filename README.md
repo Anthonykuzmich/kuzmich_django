@@ -1,4 +1,4 @@
-Django-Website for Student Research Council - Graduation work
+Django-Website for Student Research Council
 
 About this project
 Student Research Council is a young organization, which main goal is communicating with employers and students and building the bridge between them. The Student Research Council web-site is intended to provide students the opportunity to share their resumes among other students in our university. For employers, they would have the opportunity to view students of our university.
