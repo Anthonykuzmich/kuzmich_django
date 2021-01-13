@@ -6,7 +6,7 @@ Student Research Council is a young organization, which main goal is communicati
 
 
 Installation and setting up
-Clone the project from: https://github.com/Vladina/Hunt-Your-Hut.git.
+Clone the project from: https://github.com/Anthonykuzmich/kuzmich_django.git
 
 In PyCharm Professional, open the cloned project.
 
