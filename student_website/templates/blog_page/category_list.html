@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+   <h1>Spheres:</h1>
+    <hr>
+    <br>
+    <div class="list-group">
+    {% for item in sphere_menu_list %}
+        <ul class="list-group">
+        <li><h4><a class= 'dropdown-item' href="{% url 'category' item %}"> {{ item|upper }}</a></h4></li><br>
+    </ul>
+    {% endfor %}
+    </div>
+{% endblock %}
