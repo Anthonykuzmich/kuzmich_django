@@ -15,7 +15,7 @@ class BlogListView(FilterView):
     template_name = 'blog_page/blog.html'
     filterset_class = OrderFilter
     ordering = ['age', 'sphere']
-    
+
     def get_context_data(self, *args, **kwargs):
         sphere_menu = Sphere.objects.all()
         context = super(BlogListView, self).get_context_data(*args, **kwargs)
